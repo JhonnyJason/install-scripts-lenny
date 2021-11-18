@@ -1,0 +1,1 @@
+echo {{machineName}} > /etc/hostname

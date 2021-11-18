@@ -1,0 +1,9 @@
+{
+    "targetDiskDevice": "/dev/sda",
+    "pacstrapPackages": "/mnt base base-devel linux linux-firmware dhcpcd nano intel-ucode",
+    "machineName": "machinetwo",
+    "userName": "lenny",
+    "userPWDHash": "'$6$WPqF0fCnyQ59ZOSb$.7OdtgSb6XzywcP/nxB4T9ChBKJTydv1.Z.eJgtKk20RpaTZvit/wbJ/Y0UOT1.OkWc.XO1tf0x3UzjP89Iyg1'",
+    "rootPWDHash": "'$6$ytmEBYBoRo5mJDV5$TtX9/aksu3ZUqQfiaxu0DwAz4UjIS87Jvuhs6zpoGo/WizOQrKJUIFPu0ywCHa0otyYSD7AgYu4q9Fm75wsrM/'",
+    "sshPort": "37507"
+}

@@ -1,1 +1,0 @@
-echo 'machinetwo' > /etc/hostname
