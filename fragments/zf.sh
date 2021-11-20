@@ -1,0 +1,1 @@
+lxc delete {{{containerName}}} --force

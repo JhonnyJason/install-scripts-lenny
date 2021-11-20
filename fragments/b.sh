@@ -1,1 +1,1 @@
-echo {{machineName}} > /etc/hostname
+echo {{{machineName}}} > /etc/hostname

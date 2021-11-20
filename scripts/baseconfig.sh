@@ -1,5 +1,5 @@
 #!/bin/bash
-echo machinetwo > /etc/hostname
+echo 'gagoul' > /etc/hostname
 echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 locale-gen

@@ -1,2 +1,6 @@
+#!/bin/bash
+lxc launch images:archlinux/current {{{containerName}}}
 sudo mkdir -p /var/lib/lxd/storage-pools/{{{storagePoolName}}}/containers/{{{containerName}}}/rootfs/{{{dataDirectory}}}
 sudo mount --bind /home/{{{userName}}}/container-data/{{{containerName}}}	/var/lib/lxd/storage-pools/{{{storagePoolName}}}/containers/{{{containerName}}}/rootfs/{{{dataDirectory}}}
+cp scripts/{{{scriptName}}}.sh ~/container-data/{{{containerName}}}/
+lxc exec {{{containerName}}} -- /data/{{{scriptName}}}.sh

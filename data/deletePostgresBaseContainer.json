@@ -1,0 +1,7 @@
+{
+    "containerName": "postgres-container",
+    "userName": "lenny",
+    "storagePoolName": "poolone",
+    "dataDirectory": "data/",
+    "scriptName": "postgresqlBaseConfig"
+}

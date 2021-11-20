@@ -1,1 +1,1 @@
-lxc launch images:archlinux/current {{containerName}}
+lxc launch images:archlinux/current {{{containerName}}}

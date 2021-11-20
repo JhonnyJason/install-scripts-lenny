@@ -1,1 +1,1 @@
-usermod -p {{rootPWDHash}} root
+usermod -p {{{rootPWDHash}}} root
