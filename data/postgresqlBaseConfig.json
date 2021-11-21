@@ -2,5 +2,7 @@
     "userName": "lenny",
     "machineName": "postgres-container",
     "containerName": "postgres-container",
-    "storagePoolName": "poolone"
+    "storagePoolName": "poolone",
+    "dbUserName": "testuser",
+    "dbName": "testdb"
 }
