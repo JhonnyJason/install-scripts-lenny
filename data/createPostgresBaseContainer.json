@@ -2,6 +2,11 @@
     "containerName": "postgres-container",
     "userName": "lenny",
     "storagePoolName": "poolone",
-    "dataDirectory": "data/",
+    "readonlyDiskName": "readonly-disk",
+    "readonlyDirectory": "/readonly/",
+    "writableDiskName": "writable-disk",
+    "writableDirectory": "/writable/",
+    "socketName": "lesocket",
+    "socketDirectory": "/run/lesocket.sk",
     "scriptName": "postgresqlBaseConfig"
 }

@@ -1,1 +1,2 @@
-lxc exec {{{containerName}}} -- /data/{{{scriptName}}}.sh
+# execute the script
+lxc exec {{{containerName}}} -- /readonly/{{{scriptName}}}.sh

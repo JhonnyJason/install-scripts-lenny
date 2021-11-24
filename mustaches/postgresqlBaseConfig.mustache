@@ -11,4 +11,6 @@ su postgres -c 'initdb --locale=en_US.UTF-8 -E UTF8 -D /var/lib/postgres/data'
 systemctl enable postgresql
 systemctl start postgresql
 ## here create the desired users and tables for the postgresql db
-# TODO
+su - postgres -c 'createuser {{{dbUserName}}}'
+su -  postgres -c 'createdb {{{dbName}}} -O {{{dbUserName}}}'
+su - postgres -c 'touch /writable/{{{containerName}}}-postgres-user'

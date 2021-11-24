@@ -1,1 +1,1 @@
-sudo umount /var/lib/lxd/storage-pools/{{{storagePoolName}}}/containers/{{{containerName}}}/rootfs/{{{dataDirectory}}}
+#lxc config device add {{{containerName}}} {{{socketName}}} proxy source=/home/{{{userName}}}/container-data/{{{containerName}}} path={{{socketDirectory}}}
