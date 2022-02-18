@@ -1,0 +1,11 @@
+#!/bin/bash
+echo meilisearch-container > /etc/hostname
+echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
+locale-gen
+echo 'KEYMAP=de-latin1' > /etc/vconsole.conf
+echo 'FONT=lat9w-16' >> /etc/vconsole.conf
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+pacman -Syu meilisearch --noconfirm
+systemctl enable meilisearch
+systemctl start meilisearch

@@ -1,0 +1,7 @@
+{
+    "userName": "lenny",
+    "machineName": "meilisearch-container",
+    "containerName": "meilisearch-container",
+    "storagePoolName": "poolone",
+    "meiliport": 7700
+}

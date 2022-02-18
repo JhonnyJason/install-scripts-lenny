@@ -1,3 +1,4 @@
+#format to Lenny's Standard Disk Layout
 sgdisk --zap-all {{{targetDiskDevice}}}
 
 sgdisk --new=1:0:+4M --typecode=1:EF02 {{{targetDiskDevice}}}
