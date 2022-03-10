@@ -76,7 +76,7 @@ sed -i 's/#GPGKEY=""/GPGKEY="'$keyId'"/g' /etc/makepkg.conf
 # let pacman trust the key
 su - builder -c 'gpg --armor --export '$keyId' > ~/.keystuff/public.key'
 pacman-key --add /home/builder/.keystuff/public.key
-
+pacman-key --lsign-key $keyId
 
 #install yay
 su builder << EoI
