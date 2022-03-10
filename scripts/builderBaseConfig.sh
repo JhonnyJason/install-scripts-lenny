@@ -1,11 +1,19 @@
-pacman -Syu {{{packages}}} --noconfirm
+#!/bin/bash
+echo builder-container > /etc/hostname
+echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
+locale-gen
+echo 'KEYMAP=de-latin1' > /etc/vconsole.conf
+echo 'FONT=lat9w-16' >> /etc/vconsole.conf
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+pacman -Syu base-devel git --noconfirm
 
 # # get IP addresses 
 # ip4=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 # ip6=$(/sbin/ip -o -6 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 
 #add user
-useradd -m -G wheel -s /bin/bash {{{userName}}}
+useradd -m -G wheel -s /bin/bash builder
 #adjust sudoers
 sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 
@@ -16,15 +24,15 @@ mkdir -p /writable/repo-packages/meta-packages
 #adjust permissions
 chown -R builder:http /writable/*
 chmod -R 750 /writable/*
-chown builder:http /home/{{{userName}}}
-chmod 750 /home/{{{userName}}}
+chown builder:http /home/builder
+chmod 750 /home/builder
 #link it up
-ln -sf /writable/repo-packages /home/{{{userName}}}/repo-packages
+ln -sf /writable/repo-packages /home/builder/repo-packages
 
 #reown terminal to builder for gpg stuff
-chown {{{userName}}} $(tty)
+chown builder $(tty)
 #generate key without passphrase
-su {{{userName}}} << EoI
+su builder << EoI
 mkdir ~/.keystuff
 cd ~/.keystuff
 cat >keygen <<EOF
@@ -46,7 +54,7 @@ EoI
 
 # #install machine thingy nginx
 # actually we donot need the nginx here... -> Builder Server Container
-# su {{{userName}}} << EoI
+# su builder << EoI
 # mkdir ~/builds
 # cd ~/builds
 # git clone https://github.com/JhonnyJason/machine-thingy-nginx
@@ -61,17 +69,17 @@ sed -i 's/.pkg.tar.zst/.pkg.tar.xz/g' /etc/makepkg.conf
 sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z -9)/g' /etc/makepkg.conf
 # add signing of packages
 sed -i 's/!sign/sign/g' /etc/makepkg.conf
-sed -i 's/#PACKAGER="John Doe <john@doe.com>"/PACKAGER="{{{packagerName}}} <{{{packagerEmail}}}>"/g' /etc/makepkg.conf
+sed -i 's/#PACKAGER="John Doe <john@doe.com>"/PACKAGER="Lenny Builder Bot <bots@frommelt.dev>"/g' /etc/makepkg.conf
 # use the specific key we just generated
 keyId=$(su - builder -c 'gpg --list-secret-keys' | gawk '/[:alnum:]*/ {if(length($1) == 40) print$1}')
 sed -i 's/#GPGKEY=""/GPGKEY="'$keyId'"/g' /etc/makepkg.conf
 # let pacman trust the key
 su - builder -c 'gpg --armor --export '$keyId' > ~/.keystuff/public.key'
-pacman-key --add /home/{{{userName}}}/.keystuff/public.key
+pacman-key --add /home/builder/.keystuff/public.key
 
 
 #install yay
-su {{{userName}}} << EoI
+su builder << EoI
 mkdir ~/builds
 cd ~/builds
 git clone https://aur.archlinux.org/yay.git
@@ -80,12 +88,12 @@ makepkg -si --noconfirm
 EoI
 
 #install aurutils
-su {{{userName}}} << EoI
+su builder << EoI
 yay -Syu aurutils --noconfirm
 EoI
 
 #add repo dbs
-su {{{userName}}} << EoI
+su builder << EoI
 cd ~/repo-packages/aur-packages
 repo-add -s aur-packages.db.tar.xz
 cd ~/repo-packages/custom-packages
@@ -95,21 +103,21 @@ repo-add -s meta-packages.db.tar.xz
 EoI
 
 # add lines to /etc/pacman.conf for our repos
-echo -e "\n[aur-packages]\nServer = file:///home/{{{userName}}}/repo-packages/aur-packages\n" >> /etc/pacman.conf
-echo -e "\n[custom-packages]\nServer = file:///home/{{{userName}}}/repo-packages/custom-packages\n" >> /etc/pacman.conf
-echo -e "\n[meta-packages]\nServer = file:///home/{{{userName}}}/repo-packages/meta-packages\n" >> /etc/pacman.conf
+echo -e "\n[aur-packages]\nServer = file:///home/builder/repo-packages/aur-packages\n" >> /etc/pacman.conf
+echo -e "\n[custom-packages]\nServer = file:///home/builder/repo-packages/custom-packages\n" >> /etc/pacman.conf
+echo -e "\n[meta-packages]\nServer = file:///home/builder/repo-packages/meta-packages\n" >> /etc/pacman.conf
 
 # build and add aur-packages.
-su {{{userName}}} << EoI
+su builder << EoI
 cd ~/repo-packages/aur-packages
-aur sync -d aur-packages -D . --no-view {{{aurPackages}}} --noconfirm --sign
+aur sync -d aur-packages -D . --no-view yay brave-bin fonts-tlwg vscodium-bin --noconfirm --sign
 EoI
 
 # To update the aur-packages then later //to be added to the timed service
 # aur-sync -d aur-packages -D . --no-view -u --sign --noconfirm
 
 # build and add custom-packages
-su {{userName}} << EoI
+su builder << EoI
 cd ~/builds/
 git clone https://github.com/JhonnyJason/custom-packages.git custom-packages-scripts
 cd custom-package-scripts

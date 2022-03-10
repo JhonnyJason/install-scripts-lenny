@@ -1,5 +1,9 @@
 {
     "userName": "builder",
     "machineName": "builder-container",
-    "containerName": "builder-container"
+    "containerName": "builder-container",
+    "packages": "base-devel git",
+    "packagerName": "Lenny Builder Bot",
+    "packagerEmail": "bots@frommelt.dev",
+    "aurPackages": "yay brave-bin fonts-tlwg vscodium-bin"
 }
