@@ -1,4 +1,5 @@
-pacman -Syu postgresql --noconfirm
+pacman -Syu --noconfirm postgresql 
 su postgres -c 'initdb --locale=en_US.UTF-8 -E UTF8 -D /var/lib/postgres/data'
+
 systemctl enable postgresql
 systemctl start postgresql

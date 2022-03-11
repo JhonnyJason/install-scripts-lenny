@@ -1,0 +1,10 @@
+{
+    "containerName": "sparkle-container",
+    "userName": "lenny",
+    "storagePoolName": "poolone",
+    "readonlyDiskName": "readonly-disk",
+    "readonlyDirectory": "/readonly/",
+    "writableDiskName": "writable-disk",
+    "writableDirectory": "/writable/",
+    "scriptName": "builderServerBaseConfig"
+}

@@ -1,3 +1,4 @@
+# install and prepare ssh
 pacman -Syu --noconfirm openssh
 
 sed -i 's/#Port 22/Port {{{sshPort}}}/g' /etc/ssh/sshd_config
@@ -14,7 +15,7 @@ mv /etc/ssh/ssh_host_ed25519_key.pub /etc/ssh/identity.pub
 mkdir /home/{{{userName}}}/.ssh/
 chown {{{userName}}}:users /home/{{{userName}}}/.ssh
 chmod 700 /home/{{{userName}}}/.ssh/
-cp authorized_keys /home/{{{userName}}}/.ssh/
+cp /readonly/authorized_keys /home/{{{userName}}}/.ssh/
 chown {{{userName}}}:users /home/{{{userName}}}/.ssh/authorized_keys
 chmod 600 /home/{{{userName}}}/.ssh/authorized_keys
 
