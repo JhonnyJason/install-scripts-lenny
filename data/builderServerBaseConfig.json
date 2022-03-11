@@ -1,0 +1,6 @@
+{
+    "userName": "lenny",
+    "machineName": "sparkle",
+    "containerName": "sparkle-container",
+    "packages": "base-devel git lxd"
+}

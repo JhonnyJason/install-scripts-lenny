@@ -107,6 +107,9 @@ echo -e "\n[aur-packages]\nServer = file:///home/builder/repo-packages/aur-packa
 echo -e "\n[custom-packages]\nServer = file:///home/builder/repo-packages/custom-packages\n" >> /etc/pacman.conf
 echo -e "\n[meta-packages]\nServer = file:///home/builder/repo-packages/meta-packages\n" >> /etc/pacman.conf
 
+#update package dbs
+pacman -Sy
+
 # build and add aur-packages.
 su builder << EoI
 cd ~/repo-packages/aur-packages
@@ -119,8 +122,8 @@ EoI
 # build and add custom-packages
 su builder << EoI
 cd ~/builds/
-git clone https://github.com/JhonnyJason/custom-packages.git custom-packages-scripts
-cd custom-package-scripts
+git clone https://github.com/JhonnyJason/custom-packages.git custom-package-script
+cd custom-package-script
 ./create-packages.sh
 cd ~/repo-packages/custom-packages
 repo-add custom-packages.db.tar.xz *.pkg.tar.xz -R -s
