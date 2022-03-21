@@ -14,10 +14,10 @@ mkdir -p /writable/repo-packages/aur-packages
 mkdir -p /writable/repo-packages/custom-packages
 mkdir -p /writable/repo-packages/meta-packages
 #adjust permissions
-chown -R builder:http /writable/*
-chmod -R 750 /writable/*
-chown builder:http /home/{{{userName}}}
-chmod 750 /home/{{{userName}}}
+chown -R builder /writable/*
+chmod -R 755 /writable/*
+# chown builder:http /home/{{{userName}}}
+# chmod 750 /home/{{{userName}}}
 #link it up
 ln -sf /writable/repo-packages /home/{{{userName}}}/repo-packages
 
@@ -95,9 +95,9 @@ repo-add -s meta-packages.db.tar.xz
 EoI
 
 # add lines to /etc/pacman.conf for our repos
-echo -e "\n[aur-packages]\nServer = file:///home/{{{userName}}}/repo-packages/aur-packages\n" >> /etc/pacman.conf
-echo -e "\n[custom-packages]\nServer = file:///home/{{{userName}}}/repo-packages/custom-packages\n" >> /etc/pacman.conf
-echo -e "\n[meta-packages]\nServer = file:///home/{{{userName}}}/repo-packages/meta-packages\n" >> /etc/pacman.conf
+echo -e "\n[aur-packages]\nServer = file:///writable/repo-packages/aur-packages\n" >> /etc/pacman.conf
+echo -e "\n[custom-packages]\nServer = file:///writable/repo-packages/custom-packages\n" >> /etc/pacman.conf
+echo -e "\n[meta-packages]\nServer = file:///writable/repo-packages/meta-packages\n" >> /etc/pacman.conf
 
 # build and add aur-packages.
 su {{{userName}}} << EoI

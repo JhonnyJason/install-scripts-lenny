@@ -22,10 +22,11 @@ mkdir -p /writable/repo-packages/aur-packages
 mkdir -p /writable/repo-packages/custom-packages
 mkdir -p /writable/repo-packages/meta-packages
 #adjust permissions
-chown -R builder:http /writable/*
-chmod -R 750 /writable/*
-chown builder:http /home/builder
-chmod 750 /home/builder
+chown -R builder /writable/*
+# we need to set http group in builder server, not builder container...
+chmod -R 755 /writable/*
+# chown builder:http /home/builder
+# chmod 750 /home/builder
 #link it up
 ln -sf /writable/repo-packages /home/builder/repo-packages
 
