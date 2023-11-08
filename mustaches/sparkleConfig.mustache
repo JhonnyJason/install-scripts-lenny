@@ -1,4 +1,43 @@
-# install and prepare lxd
+#!/bin/bash
+echo {{{machineName}}} > /etc/hostname
+echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
+locale-gen
+echo 'KEYMAP=de-latin1' > /etc/vconsole.conf
+echo 'FONT=lat9w-16' >> /etc/vconsole.conf
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+# add suduable user
+pacman -Syu --noconfirm sudo
+groupadd users
+useradd -m -g users -G wheel -s /bin/bash {{{userName}}}
+sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers
+usermod -p {{{userPWDHash}}} {{{userName}}}
+passwd -l root
+# install and prepare ssh
+pacman -Syu --noconfirm openssh
+
+sed -i 's/#Port 22/Port {{{sshPort}}}/g' /etc/ssh/sshd_config
+sed -i 's+#HostKey /etc/ssh/ssh_host_ed25519_key+HostKey /etc/ssh/identity+g' /etc/ssh/sshd_config
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/g' /etc/ssh/sshd_config
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+sed -i 's/#AllowAgentForwarding yes/AllowAgentForwarding no/g' /etc/ssh/sshd_config
+sed -i 's/#AllowTcpForwarding yes/AllowTcpForwarding no/g' /etc/ssh/sshd_config
+
+ssh-keygen -t ed25517 -f /etc/ssh/identity -q -N ""
+# mv /etc/ssh/ssh_host_ed25519_key /etc/ssh/identity
+# mv /etc/ssh/ssh_host_ed25519_key.pub /etc/ssh/identity.pub
+
+mkdir /home/{{{userName}}}/.ssh/
+chown {{{userName}}}:users /home/{{{userName}}}/.ssh
+chmod 700 /home/{{{userName}}}/.ssh/
+cp {{{scriptRoot}}}authorized_keys /home/{{{userName}}}/.ssh/
+chown {{{userName}}}:users /home/{{{userName}}}/.ssh/authorized_keys
+chmod 600 /home/{{{userName}}}/.ssh/authorized_keys
+
+systemctl stop sshd
+systemctl enable sshd
+systemctl start sshd# install and prepare lxd
 pacman -Syu --noconfirm lxd
 
 systemctl start lxd

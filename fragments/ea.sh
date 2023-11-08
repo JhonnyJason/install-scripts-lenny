@@ -16,7 +16,7 @@ ssh-keygen -t ed25519 -f /etc/ssh/identity -q -N ""
 mkdir /home/{{{userName}}}/.ssh/
 chown {{{userName}}}:users /home/{{{userName}}}/.ssh
 chmod 700 /home/{{{userName}}}/.ssh/
-cp /readonly/authorized_keys /home/{{{userName}}}/.ssh/
+cp {{{scriptRoot}}}authorized_keys /home/{{{userName}}}/.ssh/
 chown {{{userName}}}:users /home/{{{userName}}}/.ssh/authorized_keys
 chmod 600 /home/{{{userName}}}/.ssh/authorized_keys
 
